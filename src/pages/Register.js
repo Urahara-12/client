@@ -8,22 +8,23 @@ let postUser = async (name, email, password) => {
         body: JSON.stringify({
             name: name,
             email: email,
-            password: password
+            password: password 
         })
     };
     try {
-        return await fetch(`https://youssef-server.herokuapp.com/register/`, options)
+        //return await fetch(`https://youssef-server.herokuapp.com/register/`, options)
+        return await fetch(`http://localhost:80/register/`, options)
     } catch (err) {
-        // TODO: put a toaster
+    
         console.log('Error getting documents', err)
     }
 }
 
 let Register = {
-    // TODO: add event listner for email checker on there
+    
     render: async () => {
         if (localStorage.getItem('token')) {
-            window.location.replace('/#/');
+            window.location.hash='#/';
         } else {
             return `
                 <form class='column col-3 form-group p-centered' style='height:100%; padding-top:200px'>
@@ -54,7 +55,7 @@ let Register = {
     , after_render: async () => {
         if (localStorage.getItem('token')) {
         } else {
-            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/;// regular expression to check emails
             document.getElementById('email_input').addEventListener(
                 'keyup',
                 async () => {
@@ -77,7 +78,7 @@ let Register = {
                         email_hint.innerHTML = 'Not Valid Email';
                         button.classList.add('disable');
                     } else {
-                        let resp = await fetch(`https://youssef-server.herokuapp.com/email_checker?email=${email.value}`);
+                        let resp = await fetch(`http://localhost:80/email_checker?email=${email.value}`);
                         if (resp.ok) {
                             email_group.classList.add('has-error');
                             email_icon.classList.remove('loading');
@@ -97,7 +98,7 @@ let Register = {
             )
 
             document.getElementById('repeat_pass_input').addEventListener(
-                'keyup',
+                'keyup', // ama asheel 2edy,
                 async () => {
                     let pass = document.getElementById('pass_input');
                     let passRepeat = document.getElementById('repeat_pass_input');
@@ -138,11 +139,10 @@ let Register = {
                     let name = document.getElementById('name_input');
                     let email = document.getElementById('email_input');
                     let password = document.getElementById('pass_input');
-                    let repeatPass = document.getElementById('repeat_pass_input');
                     let resp = await postUser(name.value, email.value, password.value);
                     const body = await resp.json();
                     localStorage.setItem('token', body.token);
-                    window.location.replace('/#/');
+                    window.location.hash='#/';
                 }
             )
         }

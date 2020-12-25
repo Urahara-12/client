@@ -17,13 +17,13 @@ const noDepartmentsHTML = `
                     <p class='empty-title h5'>There are no Departments</p>
                     <pre class='empty-subtitle code' data-lang='CURL'>
                     <code class='text-left'>
-$ mysql -hdb4free.net -uyoussef_database \\
--ppassword youssef_database \\
--e "insert into depts
-(name, description) values
-('dept 1', 'this is depts 1'),
-('dept 2', 'this is depts 2'),
-('dept 3', 'this is depts 3')"
+$ c:/xampp/mysql/bin/mysql.exe \\
+  -hlocalhost -uroot app \\
+  -e "insert into depts 
+  (name, description) values
+  ('dept 1', 'this is depts 1'),
+  ('dept 2', 'this is depts 2'),
+  ('dept 3', 'this is depts 3')"
                         </code>
                     </pre>
                 </div>
@@ -36,13 +36,15 @@ $ mysql -hdb4free.net -uyoussef_database \\
 let Home = {
     render : async () => {
         if (!localStorage.getItem('token')) {
-            window.location.replace('/#/login');
+            window.location.hash='#/login';
         } else {
             const userReq = await fetch(
-                `https://youssef-server.herokuapp.com/user`, reqOptions
+                //`https://youssef-server.herokuapp.com/user`, reqOptions
+                `http://localhost:80/user`, reqOptions
             )
             const departmentsReq = await fetch(
-                `https://youssef-server.herokuapp.com/departments`, reqOptions
+                //`https://youssef-server.herokuapp.com/departments`, reqOptions
+                `http://localhost:80/departments`, reqOptions
             )
 
             let user = await userReq.json();

@@ -1,6 +1,6 @@
 let Navbar = {
     render: async () => {
-        let view;
+        let view; // just render html
         if (!localStorage.getItem('token')) {
             view = `
                 <section class='navbar-section'>

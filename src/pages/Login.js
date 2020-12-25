@@ -11,7 +11,8 @@ let postUser = async (email, password) => {
         })
     };
     try {
-        return await fetch(`https://youssef-server.herokuapp.com/login/`, options)
+        //return await fetch(`https://youssef-server.herokuapp.com/login/`, options)
+        return await fetch(`http://localhost:80/login/`, options)
     } catch (err) {
         // TODO: put a toaster
         console.log('Error getting documents', err)
@@ -22,7 +23,7 @@ let Login = {
     // TODO: add event listner for email checker on there
     render: async () => {
         if (localStorage.getItem('token')) {
-            window.location.replace('/#/');
+            window.location.hash='#/';
         } else {
             return `
                 <div class='column col-12' style='display:none;' id='toaster'>
@@ -72,7 +73,8 @@ let Login = {
                         email_hint.innerHTML = 'Not Valid Email';
                         button.classList.add('disable');
                     } else {
-                        let resp = await fetch(`https://youssef-server.herokuapp.com/email_checker?email=${email.value}`);
+                        //let resp = await fetch(`https://youssef-server.herokuapp.com/email_checker?email=${email.value}`);
+                        let resp = await fetch(`http://localhost:80/email_checker?email=${email.value}`);
                         if (resp.ok) {
                             email_group.classList.add('has-success');
                             email_icon.classList.remove('loading');
@@ -102,7 +104,7 @@ let Login = {
                     const body = await resp.json();
                     if (resp.ok) {
                         localStorage.setItem('token', body.token);
-                        window.location.replace('/#/');
+                        window.location.hash='#/';
                     } else if (resp.status == 500) {
                         // TODO: add toaster
                         console.log(resp.status, body.details);

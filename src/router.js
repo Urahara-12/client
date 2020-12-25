@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; // cant use undeclared variable
 
 import Navbar from './components/Navbar.js'
 import Bottombar from './components/Bottombar.js'
@@ -17,7 +17,7 @@ const routes = {
 };
 
 let parseRequestURL = () => {
-    let url = location.hash.slice(1).toLowerCase() || '/';
+    let url = location.hash.slice(1).toLowerCase() || '/'; // slices url at # 
     let r = url.split('/')
     let request = {
         resource    : null,
@@ -36,7 +36,7 @@ const router = async () => {
     const footer = null || document.getElementById('footer_container');
     const content = null || document.getElementById('main_container');
 
-    header.innerHTML = await Navbar.render();
+    header.innerHTML = await Navbar.render(); // before split
     await Navbar.after_render();
     footer.innerHTML = await Bottombar.render();
     await Bottombar.after_render();
@@ -44,11 +44,11 @@ const router = async () => {
     let parsedURL = (request.resource ? '/' + request.resource : '/') + (request.id ? '/:id' : '') + (request.verb ? '/' + request.verb : '')
     let page = routes[parsedURL] ? routes[parsedURL] : Error404
     content.innerHTML = await Loading.render();
-    await Loading.after_render();
+    await Loading.after_render(); 
     content.innerHTML = await page.render();
     await page.after_render();
 
 }
 
-window.addEventListener('hashchange', router);
-window.addEventListener('load', router);
+window.addEventListener('hashchange', router); // change in hash, redirecting to home
+window.addEventListener('load', router); // request or reload
